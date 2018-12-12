@@ -9,6 +9,9 @@ public class HumanPlayer extends Player {
     private BufferedReader in;
     private PrintWriter out;
 
+    public HumanPlayer() {
+    }
+
     public void sendMessage(String message) {
         out.print(message);
     }

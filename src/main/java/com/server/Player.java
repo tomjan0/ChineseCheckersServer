@@ -3,9 +3,13 @@ package com.server;
 
 public abstract class Player {
     private int playerId;
+    private int gameId;
     private boolean isMoving;
     private int pawnsInPlace;
 
+    public int getGameId() {
+        return gameId;
+    }
 
     public int getPlayerId() {
         return playerId;
