@@ -9,10 +9,13 @@ public class Room {
     private int numberOfAIPlayers;
     private int numberOfConnectedPlayers;
 
-    public Room(int roomId, Player player ) {
+    public Room(int roomId, Player player, int numberOfPlayers, int numberOfAiPlayers ) {
         this.roomId = roomId;
         this.players = new ArrayList<>();
         players.add(player);
+        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfAIPlayers = numberOfAiPlayers;
+        numberOfConnectedPlayers = 1;
     }
 
 
