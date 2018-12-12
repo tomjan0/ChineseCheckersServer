@@ -8,6 +8,8 @@ public abstract class Board {
     }
 
     public abstract BoardField getField(int y, int x);
+    public abstract void addPlayer(Player player);
+
     public void createField(int y, int x){
         fieldArray[y][x] = new BoardField();
     }
@@ -17,5 +19,4 @@ public abstract class Board {
         }
     }
 
-    public abstract void addPlayer(Player player);
 }
