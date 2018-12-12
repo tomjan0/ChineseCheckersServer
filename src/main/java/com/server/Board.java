@@ -1,7 +1,7 @@
 package com.server;
 
 public abstract class Board {
-    BoardField[][] fieldArray;
+    private BoardField[][] fieldArray;
 
     public Board(int rows, int cols) {
         this.fieldArray = new BoardField[rows][cols];

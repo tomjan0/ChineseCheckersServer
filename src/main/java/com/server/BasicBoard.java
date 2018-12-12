@@ -76,4 +76,26 @@ public class BasicBoard extends Board {
             getField(y,x+i).setPlayer(player);
         }
     }
+
+    @Override
+    public String toString() {
+        String result = " ";
+        for (int i=0; i<19; i++) {
+            if (i%2 == 0) {
+                result += " ";
+            }
+            for (int j = 0; j < 15; j++) {
+                if (getField(i,j) == null){
+                    result += '-';
+                } else if (getField(i,j).getPlayer() == null) {
+                    result += 'o';
+                } else {
+                    result = String.valueOf(getField(i, j).getPlayer().getGameId());
+                }
+                result += " ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
 }
