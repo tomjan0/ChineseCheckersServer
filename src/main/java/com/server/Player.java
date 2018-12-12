@@ -4,7 +4,8 @@ package com.server;
 public abstract class Player {
     private int playerId;
     private boolean isMoving;
-    private boolean isWinning;
+    private int pawnsInPlace;
+
 
     public int getPlayerId() {
         return playerId;
@@ -15,6 +16,6 @@ public abstract class Player {
     }
 
     public boolean isWinning() {
-        return isWinning;
+        return (pawnsInPlace == 10);
     }
 }
