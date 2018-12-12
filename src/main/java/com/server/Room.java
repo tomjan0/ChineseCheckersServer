@@ -7,18 +7,21 @@ public class Room {
     private ArrayList<Player> players;
     private int numberOfPlayers;
     private int numberOfAIPlayers;
+    private int numberOfConnectedPlayers;
 
-    public Room(int roomId, ArrayList<Player> players) {
+    public Room(int roomId, Player player ) {
         this.roomId = roomId;
-        this.players = players;
+        this.players = new ArrayList<>();
+        players.add(player);
     }
 
-    public Room(int roomId) {
-        this(roomId, new ArrayList<>());
-    }
 
     public void addPlayer(Player player) {
         //TODO: implement method
+    }
+
+    public String toString(){
+        return ("Room : " + roomId + " | " + numberOfConnectedPlayers + "/" + numberOfPlayers + " players in the room");
     }
 
 

@@ -5,11 +5,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class HumanPlayer extends Player {
-    private Socket playerSocket;
+    private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
 
-    public HumanPlayer() {
+    public HumanPlayer(int id, Socket socket){
+        super(id);
+        this.socket = socket;
     }
 
     public void sendMessage(String message) {

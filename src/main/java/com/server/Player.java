@@ -7,8 +7,19 @@ public abstract class Player {
     private boolean isMoving;
     private int pawnsInPlace;
 
+    public Player(int playerId){
+        this.playerId = playerId;
+        gameId = -1;
+        isMoving = false;
+        pawnsInPlace = 0;
+
+    }
     public int getGameId() {
         return gameId;
+    }
+
+    public void setGameId(int gameId){
+        this.gameId = gameId;
     }
 
     public int getPlayerId() {
