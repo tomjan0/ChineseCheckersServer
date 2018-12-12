@@ -4,19 +4,9 @@ public class BoardField {
     private PlayerPawn pawn;
     private Player winner;
 
-    public BoardField(PlayerPawn pawn, Player winner) {
-        this.pawn = pawn;
-        this.winner = winner;
-    }
-
     public BoardField() {
         pawn = null;
         winner = null;
-    }
-
-    public void setField(PlayerPawn pawn, Player winner){
-        this.pawn = pawn;
-        this.winner = winner;
     }
 
     public Player getPlayer() {
@@ -25,5 +15,17 @@ public class BoardField {
         } else {
             return null;
         }
+    }
+
+    public void setPlayer(Player player){
+        pawn = new PlayerPawn(player);
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 }
