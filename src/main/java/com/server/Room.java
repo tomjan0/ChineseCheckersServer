@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Room {
     private int roomId;
     private ArrayList<Player> players;
+    private int numberOfPlayers;
+    private int numberOfAIPlayers;
 
     public Room(int roomId, ArrayList<Player> players) {
         this.roomId = roomId;
