@@ -90,7 +90,7 @@ public class BasicBoard extends Board {
                 } else if (getField(i,j).getPlayer() == null) {
                     result += 'o';
                 } else {
-                    result = String.valueOf(getField(i, j).getPlayer().getGameId());
+                    result += String.valueOf(getField(i, j).getPlayer().getGameId());
                 }
                 result += " ";
             }
@@ -98,4 +98,5 @@ public class BasicBoard extends Board {
         }
         return result;
     }
+
 }
