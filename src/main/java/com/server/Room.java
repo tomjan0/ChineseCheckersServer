@@ -24,7 +24,7 @@ public class Room {
     }
 
     public String toString(){
-        return ("Room : " + roomId + " | " + numberOfConnectedPlayers + "/" + numberOfPlayers + " players in the room");
+        return (roomId + " " + numberOfConnectedPlayers + " " + numberOfPlayers);
     }
 
 

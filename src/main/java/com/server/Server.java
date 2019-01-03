@@ -1,7 +1,7 @@
 package com.server;
 
 import com.sun.source.tree.WhileLoopTree;
-import test.TestGUI;
+//import test.TestGUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,13 +41,20 @@ public class Server {
                 String message = "";
 
                 while ((message = in.readLine()) != null) {
-                    System.out.println(message);
+                    System.out.println("\tClient message: " + message);
                     if(message.equals("port-request")) {
-                        out.println("p" + port);
+                        out.println(port);
                         port++;
                     }
+                    if (message.equals("Player")) {
+                        out.println("445");
+                        System.out.println(message + "#445");
+                    }
+                    if (message.equals("new-room")){
+                        out.println("1;4;3;Basic;2;3;4;6;1;2;3");
+                    }
                     if(message.equals("pend")){
-                        out.println("disconnected");
+                        System.out.println("Disconnected");
                         break;
                     }
                 }
