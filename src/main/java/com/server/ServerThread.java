@@ -40,19 +40,20 @@ public class ServerThread implements Runnable {
     }
 
     private void chooseResponse(String message) {
-        if (message.equals("pend")) {
+        if (message.equals("close")) {
             closeSocket();
         } else {
             //TODO: call method that runs appropriate code depending on message
-            if (message.equals("port-request")) {
-                out.println("6363");
-            }
-            if (message.equals("Player")) {
-                out.println("492");
-            }
-            if (message.equals("new-room")){
-                out.println("1;4;3;Basic;2;3;4;6;1;2;3");
-            }
+            out.println(Rules.respond(message));
+//            if (message.equals("port-request")) {
+//                out.println("6363");
+//            }
+//            if (message.equals("Player")) {
+//                out.println("492");
+//            }
+//            if (message.equals("new-room")){
+//                out.println("1;4;3;Basic;2;3;4;6;1;2;3");
+//            }
         }
     }
 
