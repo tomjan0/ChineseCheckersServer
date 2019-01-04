@@ -79,8 +79,8 @@ public class BasicBoard extends Board {
 
     @Override
     public String toString() {
-        String result = " ";
-        for (int i=0; i<19; i++) {
+        String result = "";
+        for (int i=1; i<18; i++) {
             if (i%2 == 0) {
                 result += " ";
             }
@@ -94,7 +94,7 @@ public class BasicBoard extends Board {
                 }
                 result += " ";
             }
-            result += "\n";
+            result += "\\n";
         }
         return result;
     }

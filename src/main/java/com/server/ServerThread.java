@@ -10,16 +10,19 @@ import java.net.Socket;
 
 public class ServerThread implements Runnable {
 
+//    private int id;
+    private Player player;
     private PrintWriter out;
     private BufferedReader in;
     private Socket clientSocket;
 
-    public ServerThread(Socket socket) {
+    public ServerThread(Socket socket, int id) {
         try {
             clientSocket = socket;
             System.out.println(clientSocket.getInetAddress().toString() + " Connected");
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//            this.id = id;
         } catch (IOException e) {
             closeSocket();
         }
@@ -30,7 +33,7 @@ public class ServerThread implements Runnable {
         try {
             String message = in.readLine();
             do {
-                System.out.println("\tClient request: " + message);
+                System.out.println("\t" + clientSocket.getInetAddress() +" Client request: " + message);
                 chooseResponse(message);
                 message = in.readLine();
             } while (message != null);
@@ -39,12 +42,24 @@ public class ServerThread implements Runnable {
         }
     }
 
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     private void chooseResponse(String message) {
         if (message.equals("close")) {
             closeSocket();
         } else {
             //TODO: call method that runs appropriate code depending on message
-            out.println(Rules.respond(message));
+            out.println(Rules.respond(message, this));
 //            if (message.equals("port-request")) {
 //                out.println("6363");
 //            }

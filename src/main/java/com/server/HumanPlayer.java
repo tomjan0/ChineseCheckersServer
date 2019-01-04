@@ -9,10 +9,12 @@ public class HumanPlayer extends Player {
     private BufferedReader in;
     private PrintWriter out;
 
-    public HumanPlayer(int id, Socket socket){
-        super(id);
+    public HumanPlayer(int id, Socket socket, String name){
+        super(id, name);
         this.socket = socket;
     }
+
+
 
     public void sendMessage(String message) {
         out.print(message);
