@@ -2,7 +2,7 @@ package com.server;
 
 public class BasicBoard extends Board {
     public BasicBoard() {
-        super(19,15);
+        super(19,15, new String[]{"#f00","#009","#090","#ff0","#f39","#606"});
         this.createField(1,7);
         this.createField(2,6,2);
         this.createField(3,6,3);
@@ -97,6 +97,15 @@ public class BasicBoard extends Board {
             result += "\\n";
         }
         return result;
+    }
+
+    @Override
+    public String getListOfColors(int n) {
+        StringBuilder list = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            list.append(super.getColor(i)).append(";");
+        }
+        return list.toString();
     }
 
 }

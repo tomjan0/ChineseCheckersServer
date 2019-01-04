@@ -1,7 +1,7 @@
 package com.server;
 
 public abstract class AIPlayer extends Player {
-    public AIPlayer(int playerId) {
-        super(playerId, "ai");
+    public AIPlayer(String name) {
+        super(name);
     }
 }

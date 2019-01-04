@@ -9,8 +9,9 @@ public class Server {
 
     private static final int PORT = 7554;
     private static  ArrayList<Room> roomList = new ArrayList<>();
-    private static ArrayList<Player> playerList = new ArrayList<>();
-    private static ArrayList<ServerThread> threadsList = new ArrayList<>();
+    private static ArrayList<ClientHandler> connectedList = new ArrayList<>();
+    public static int roomCounter = 1;
+    public static int playerIdCounter = 1;
 
     public static void main(String[] args) {
 
@@ -20,11 +21,10 @@ public class Server {
             System.out.println("Waiting for the first connection...");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                ServerThread client = new ServerThread(clientSocket, threadsList.size());
-                Thread game = new Thread(client);
-                game.start();
-
-                threadsList.add(client);
+                ClientHandler client = new ClientHandler(clientSocket);
+                Thread connection = new Thread(client);
+                connection.start();
+                connectedList.add(client);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -35,11 +35,17 @@ public class Server {
         return roomList;
     }
 
-    public static ArrayList<Player> getPlayerList() {
-        return playerList;
+    public static ArrayList<ClientHandler> getConnectedList() {
+        return connectedList;
     }
 
-    public static ArrayList<ServerThread> getThreadsList() {
-        return threadsList;
+    public static Room getRoom(int roomId) {
+        for (Room room :
+                roomList) {
+            if (room.getRoomId() == roomId) {
+                return room;
+            }
+            }
+        return null;
     }
 }

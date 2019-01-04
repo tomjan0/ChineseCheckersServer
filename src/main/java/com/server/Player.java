@@ -8,8 +8,9 @@ public abstract class Player {
     private boolean isMoving;
     private int pawnsInPlace;
 
-    public Player(int playerId, String name){
-        this.playerId = playerId;
+    public Player(String name){
+        this.playerId = Server.playerIdCounter;
+        Server.playerIdCounter++;
         this.name = name;
         gameId = -1;
         isMoving = false;
@@ -39,5 +40,10 @@ public abstract class Player {
 
     public boolean isWinning() {
         return (pawnsInPlace == 10);
+    }
+
+    @Override
+    public String toString() {
+        return name + " #" + playerId;
     }
 }
