@@ -1,20 +1,27 @@
 package com.server;
 
 public class PlayerPawn {
-    private Player owner;
+    private int ownerId;
     private boolean isInPlace;
 
-    public PlayerPawn(Player owner) {
-        this.owner = owner;
+    public PlayerPawn(int ownerId) {
+        this.ownerId = ownerId;
         isInPlace = false;
     }
 
-    public Player getOwner() {
-        return owner;
+    public int getOwnerId() {
+        return ownerId;
     }
 
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
 
-    public void setOwner(Player owner) {
-        this.owner = owner;
+    public boolean isInPlace() {
+        return isInPlace;
+    }
+
+    public void setInPlace(boolean inPlace) {
+        isInPlace = inPlace;
     }
 }

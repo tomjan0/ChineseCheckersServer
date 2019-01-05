@@ -2,14 +2,12 @@ package com.server;
 
 public class  BasicRules implements Rules {
     @Override
-    public boolean checkIfWon(Player player) {
-        //TODO: implement method
+    public boolean checkIfWon(int playerId) {
         return false;
     }
 
     @Override
-    public String showPossibleMoves() {
-        //TODO: implement method
+    public String showPossibleMoves(int playerId) {
         return null;
     }
 

@@ -11,8 +11,6 @@ public class Server {
     private static  ArrayList<Room> roomList = new ArrayList<>();
     private static ArrayList<ClientHandler> connectedList = new ArrayList<>();
     public static int roomCounter = 1;
-    public static int playerIdCounter = 1;
-
     public static void main(String[] args) {
 
         System.out.println("Starting server");

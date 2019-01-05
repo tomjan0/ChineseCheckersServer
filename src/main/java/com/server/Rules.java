@@ -2,8 +2,8 @@ package com.server;
 
 public interface Rules {
     String listOfGameModes = "Basic";
-    boolean checkIfWon(Player player);
-    String showPossibleMoves();
+    boolean checkIfWon(int playerId);
+    String showPossibleMoves(int playerId);
     int setPlayerId(int totalNumberOfPlayers, int loggedInPlayers);
     String getCapacityList();
     static Rules getRuleset(String mode) {

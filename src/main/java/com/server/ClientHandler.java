@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable {
             }
             case "create-player": {
                 //TODO: call method that creates new player and returns his id
-                setPlayer(new HumanPlayer(request.split(";")[1], getClientSocket()));
+                setPlayer(Player.getPlayer(request.split(";")[1], getClientSocket()));
                 out.println(getPlayer().getPlayerId());
                 System.out.println(getPlayer().toString());
                 break;
@@ -79,13 +79,13 @@ public class ClientHandler implements Runnable {
             }
             case "new-room-game-modes": {
                 //TODO: call method that returns current options for creating room
-                out.println(Rules.listOfGameModes);
+                out.println(Room.getListOfGameModes());
                 break;
             }
             case "new-room-capacity": {
-                Rules rules = Rules.getRuleset(request.split(";")[1]);
-                if (rules != null) {
-                    out.println(rules.getCapacityList());
+                String capacityList = Room.getCapacityList(request.split(";")[1]);
+                if (capacityList != null) {
+                    out.println(capacityList);
                 } else {
                     out.println("error;This game mode is unavailable");
                 }

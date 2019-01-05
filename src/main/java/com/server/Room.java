@@ -23,19 +23,10 @@ public class Room {
         numberOfConnectedPlayers = 1;
         this.gameMode = gameMode;
         this.rules = Rules.getRuleset(gameMode);
-        switch (gameMode) {
-            case "Basic": {
-                board = new BasicBoard();
-                break;
-            }
-            default: {
-                board = null;
-                break;
-            }
-        }
+        this.board = Board.getBoardType(gameMode);
         addPlayer(player);
         for (int i=0; i< this.numberOfAIPlayers; i++) {
-            addPlayer(new EasyAIPlayer());
+            addPlayer(Player.getPlayer("Easy"));
             numberOfConnectedPlayers++;
         }
         Server.getRoomList().add(this);
@@ -51,7 +42,7 @@ public class Room {
         if (rules != null && board != null && players.size() < numberOfPlayers && !isAlreadyPlaying(player)) {
             player.setGameId(rules.setPlayerId(numberOfPlayers, players.size()));
             players.add(player);
-            board.addPlayer(player);
+            board.addPlayer(player.getPlayerId(), player.getGameId());
             System.out.println("Player added. " + players.size() + " players now");
             return true;
         } else {
@@ -96,5 +87,18 @@ public class Room {
 
     private boolean isAlreadyPlaying(Player player) {
         return players.contains(player);
+    }
+
+    public static String getListOfGameModes() {
+        return Rules.listOfGameModes;
+    }
+
+    public static String getCapacityList(String gameMode) {
+        Rules rules = Rules.getRuleset(gameMode);
+        if (rules != null) {
+            return rules.getCapacityList();
+        } else {
+            return null;
+        }
     }
 }

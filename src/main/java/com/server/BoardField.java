@@ -2,30 +2,32 @@ package com.server;
 
 public class BoardField {
     private PlayerPawn pawn;
-    private Player winner;
+    private int winnerId;
+    private String outputCode;
 
     public BoardField() {
         pawn = null;
-        winner = null;
+        outputCode = "o";
     }
 
-    public Player getPlayer() {
-        if (pawn != null) {
-            return pawn.getOwner();
-        } else {
-            return null;
-        }
+    public PlayerPawn getPawn() {
+        return pawn;
     }
 
-    public void setPlayer(Player player){
-        pawn = new PlayerPawn(player);
+    public void setPawn(int playerId, int gameId) {
+        this.pawn = new PlayerPawn(playerId);
+        outputCode = gameId + "";
     }
 
-    public void setWinner(Player winner) {
-        this.winner = winner;
+    public int getWinnerId() {
+        return winnerId;
     }
 
-    public Player getWinner() {
-        return winner;
+    public void setWinnerId(int winnerId) {
+        this.winnerId = winnerId;
+    }
+
+    public String getOutputCode() {
+        return outputCode;
     }
 }

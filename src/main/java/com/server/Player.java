@@ -1,7 +1,11 @@
 package com.server;
 
 
+import java.net.Socket;
+
 public abstract class Player {
+    private static int playerIdCounter = 1;
+
     private String name;
     private int playerId;
     private int gameId;
@@ -9,13 +13,21 @@ public abstract class Player {
     private int pawnsInPlace;
 
     public Player(String name){
-        this.playerId = Server.playerIdCounter;
-        Server.playerIdCounter++;
+        this.playerId = playerIdCounter;
+        playerIdCounter++;
         this.name = name;
         gameId = -1;
         isMoving = false;
         pawnsInPlace = 0;
 
+    }
+
+    public static Player getPlayer(String difficultyLevel) {
+        return AIPlayer.getAI(difficultyLevel);
+    }
+
+    public static Player getPlayer(String name, Socket socket) {
+        return new HumanPlayer(name, socket);
     }
 
     public String getName() {
