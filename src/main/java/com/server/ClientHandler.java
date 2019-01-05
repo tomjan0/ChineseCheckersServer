@@ -31,15 +31,17 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        try {
-            String message = in.readLine();
-            do {
-                System.out.println("\t" + clientSocket.getInetAddress() +" Client request: " + message);
-                chooseResponse(message);
-                message = in.readLine();
-            } while (message != null);
-        } catch (IOException ex) {
-//                System.out.println("Exception");
+        synchronized (this) {
+            try {
+                String message = in.readLine();
+                do {
+                    System.out.println("\t" + clientSocket.getInetAddress() +" Client request: " + message);
+                    chooseResponse(message);
+                    message = in.readLine();
+                } while (message != null);
+            } catch (IOException ex) {
+    //                System.out.println("Exception");
+            }
         }
     }
 

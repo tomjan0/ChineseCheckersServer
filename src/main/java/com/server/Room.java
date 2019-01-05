@@ -73,7 +73,7 @@ public class Room {
         return roomId + ";"
                 + "Created by " + players.get(0).toString() + ";"
                 + getListOfPlayers() + ";"
-                + board.getListOfColors(getPlayers().size())
+                + board.getListOfColors()
                 + gameMode + ";"
                 + player.getGameId() + ";"
                 + board.toString();

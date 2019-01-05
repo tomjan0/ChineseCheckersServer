@@ -98,9 +98,9 @@ public class BasicBoard extends Board {
     }
 
     @Override
-    public String getListOfColors(int n) {
+    public String getListOfColors() {
         StringBuilder list = new StringBuilder();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < 6; i++) {
             list.append(super.getColor(i)).append(";");
         }
         return list.toString();

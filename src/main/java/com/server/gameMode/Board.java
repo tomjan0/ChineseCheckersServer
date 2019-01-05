@@ -24,7 +24,7 @@ public abstract class Board {
         return this.fieldArray[y][x];
     }
     public abstract void addPlayer(int playerId, int gameId);
-    public abstract String getListOfColors(int n);
+    public abstract String getListOfColors();
 
     public void createField(int y, int x){
         fieldArray[y][x] = new BoardField();
