@@ -10,7 +10,6 @@ public class Server {
     private static final int PORT = 7554;
     private static  ArrayList<Room> roomList = new ArrayList<>();
     private static ArrayList<ClientHandler> connectedList = new ArrayList<>();
-    public static int roomCounter = 1;
     public static void main(String[] args) {
 
         System.out.println("Starting server");
@@ -33,15 +32,21 @@ public class Server {
         return roomList;
     }
 
-    public static ArrayList<ClientHandler> getConnectedList() {
-        return connectedList;
-    }
-
     public static Room getRoom(int roomId) {
         for (Room room :
                 roomList) {
             if (room.getRoomId() == roomId) {
                 return room;
+            }
+            }
+        return null;
+    }
+
+    public static ClientHandler getClientHandler(int playerId) {
+        for (ClientHandler client :
+                connectedList) {
+            if (client.getPlayer().getPlayerId() == playerId) {
+                return client;
             }
             }
         return null;

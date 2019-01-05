@@ -3,39 +3,29 @@ package com.server;
 import java.util.ArrayList;
 
 public class Room {
+    private static int roomCounter = 1;
     private int roomId;
     private ArrayList<Player> players;
-    private ArrayList<GameThread> humanPlayers;
     private int numberOfPlayers;
     private int numberOfAIPlayers;
-    private int numberOfConnectedPlayers;
     private String gameMode;
     private Rules rules;
     private Board board;
 
     public Room(Player player, int numberOfPlayers, int numberOfAiPlayers, String gameMode) {
-        this.roomId = Server.roomCounter;
-        Server.roomCounter++;
+        this.roomId = roomCounter;
+        roomCounter++;
         this.players = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayers;
         this.numberOfAIPlayers = numberOfAiPlayers;
-        humanPlayers = new ArrayList<>();
-        numberOfConnectedPlayers = 1;
         this.gameMode = gameMode;
         this.rules = Rules.getRuleset(gameMode);
         this.board = Board.getBoardType(gameMode);
-        addPlayer(player);
-        for (int i=0; i< this.numberOfAIPlayers; i++) {
-            addPlayer(Player.getPlayer("Easy"));
-            numberOfConnectedPlayers++;
-        }
         Server.getRoomList().add(this);
-    }
-
-    public void startGame(ClientHandler owner) {
-        GameThread game = new GameThread(owner);
-        humanPlayers.add(game);
-        game.start();
+        player.joinRoom(roomId);
+        for (int i = 0; i < this.numberOfAIPlayers; i++) {
+            Player.getPlayer("Easy").joinRoom(roomId);
+        }
     }
 
     public boolean addPlayer(Player player) {
@@ -51,7 +41,7 @@ public class Room {
     }
 
     public String toString(){
-        return (roomId + " " + numberOfConnectedPlayers + " " + numberOfPlayers);
+        return (roomId + " " + players.size() + " " + numberOfPlayers);
     }
 
     public int getRoomId() {

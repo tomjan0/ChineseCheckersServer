@@ -99,19 +99,15 @@ public class ClientHandler implements Runnable {
                 int playersNo = Integer.parseInt(data[2]);
                 int aiNo = Integer.parseInt(data[3]);
                 Room room = new Room(player, playersNo, aiNo, gameMode);
-                room.startGame(this);
                 out.println(room.getInfo(player));
                 break;
             }
             case "join-room": {
                 //TODO: call method that returns info about room based on id
                 int roomId = Integer.parseInt(request.split(";")[1]);
-                Room room = Server.getRoom(roomId);
-                if (room == null) {
-                    out.println("error;Room deleted");
-                }else if (room.addPlayer(getPlayer())) {
-                    room.startGame(this);
-                    out.println(room.getInfo(player));
+                boolean result = player.joinRoom(roomId);
+                if (result) {
+                    out.println(Server.getRoom(roomId).getInfo(player));
                 } else {
                     out.println("error;Room is not available for you");
                 }
