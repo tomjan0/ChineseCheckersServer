@@ -1,4 +1,4 @@
-package com.server;
+package com.server.gameMode;
 
 public class PlayerPawn {
     private int ownerId;

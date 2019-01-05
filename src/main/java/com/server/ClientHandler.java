@@ -2,6 +2,8 @@ package com.server;
 
 //import test.TestGUI;
 
+import com.server.player.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

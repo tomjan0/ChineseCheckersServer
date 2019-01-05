@@ -1,4 +1,4 @@
-package com.server;
+package com.server.gameMode;
 
 public interface Rules {
     String listOfGameModes = "Basic";

@@ -1,5 +1,7 @@
 package com.server;
 
+import com.server.player.Player;
+
 public class RoomThread extends Thread {
 
     private Room room;
@@ -17,6 +19,6 @@ public class RoomThread extends Thread {
 
     @Override
     public synchronized void start() {
-        System.out.println("Player #" + playerId + "joined room #" + room.getRoomId());
+        System.out.println("Player #" + playerId + " joined room #" + room.getRoomId());
     }
 }

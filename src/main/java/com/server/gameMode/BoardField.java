@@ -1,4 +1,4 @@
-package com.server;
+package com.server.gameMode;
 
 public class BoardField {
     private PlayerPawn pawn;

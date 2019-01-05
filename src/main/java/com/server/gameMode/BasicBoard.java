@@ -1,8 +1,8 @@
-package com.server;
+package com.server.gameMode;
 
 public class BasicBoard extends Board {
     public BasicBoard() {
-        super(19,15, new String[]{"#f00","#009","#090","#ff0","#f39","#606"});
+        super(19,15, new String[]{"#f00","#009","#090","#f90","#f39","#606"});
         this.createField(1,7);
         this.createField(2,6,2);
         this.createField(3,6,3);

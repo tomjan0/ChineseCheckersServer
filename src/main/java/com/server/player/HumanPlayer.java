@@ -1,4 +1,4 @@
-package com.server;
+package com.server.player;
 
 import java.net.Socket;
 

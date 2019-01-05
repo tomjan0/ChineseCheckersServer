@@ -1,5 +1,9 @@
 package com.server;
 
+import com.server.gameMode.Board;
+import com.server.gameMode.Rules;
+import com.server.player.Player;
+
 import java.util.ArrayList;
 
 public class Room {
@@ -33,7 +37,7 @@ public class Room {
             player.setGameId(rules.setPlayerId(numberOfPlayers, players.size()));
             players.add(player);
             board.addPlayer(player.getPlayerId(), player.getGameId());
-            System.out.println("Player added. " + players.size() + " players now");
+            System.out.println("Room #" + roomId + " has " + players.size() + " players now");
             return true;
         } else {
             return false;

@@ -1,5 +1,7 @@
-package com.server;
+package com.server.player;
 
+
+import com.server.RoomThread;
 
 import java.net.Socket;
 import java.util.ArrayList;

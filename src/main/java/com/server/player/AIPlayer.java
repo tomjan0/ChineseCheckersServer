@@ -1,4 +1,4 @@
-package com.server;
+package com.server.player;
 
 public abstract class AIPlayer extends Player {
     public AIPlayer(String name) {
