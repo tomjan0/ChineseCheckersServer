@@ -1,6 +1,5 @@
 package com.server;
 
-import com.server.gameMode.Board;
 import com.server.gameMode.Rules;
 import com.server.player.HumanPlayer;
 import com.server.player.Player;
@@ -15,7 +14,6 @@ public class Room {
     private int numberOfAIPlayers;
     private String gameMode;
     private Rules rules;
-    private Board board;
     private boolean isGameOn;
 
     public Room(Player player, int numberOfPlayers, int numberOfAiPlayers, String gameMode) {
@@ -26,7 +24,6 @@ public class Room {
         this.numberOfAIPlayers = numberOfAiPlayers;
         this.gameMode = gameMode;
         this.rules = Rules.getRuleset(gameMode);
-        this.board = Board.getBoardType(gameMode);
         Server.getRoomList().add(this);
         player.joinRoom(roomId);
         for (int i = 0; i < this.numberOfAIPlayers; i++) {
@@ -36,10 +33,10 @@ public class Room {
     }
 
     public boolean addPlayer(Player player) {
-        if (rules != null && board != null && !isFull() && !isAlreadyPlaying(player)) {
+        if (rules != null && !isFull() && !isAlreadyPlaying(player)) {
             player.setGameId(rules.setPlayerId(numberOfPlayers, players.size()));
             players.add(player);
-            board.addPlayer(player.getPlayerId(), player.getGameId());
+            rules.getBoard().addPlayer(player.getPlayerId(), player.getGameId());
             System.out.println("Room #" + roomId + " has " + players.size() + " players now");
             return true;
         } else {
@@ -51,8 +48,9 @@ public class Room {
         Player player = getPlayerById(playerId);
         if (player != null) {
             players.remove(player);
-            board.removePlayer(player.getGameId());
+            rules.getBoard().removePlayer(player.getGameId());
             player.setGameId(-1);
+            System.out.println("Room #" + roomId + " has " + players.size() + " players now");
             return true;
         } else {
             return false;
@@ -105,10 +103,10 @@ public class Room {
         return roomId + ";"
                 + "Created by " + players.get(0).toString() + ";"
                 + getListOfPlayers() + ";"
-                + board.getListOfColors()
+                + rules.getBoard().getListOfColors()
                 + gameMode + ";"
                 + player.getGameId() + ";"
-                + board.toString();
+                + rules.getBoard().toString();
     }
 
     private boolean isAlreadyPlaying(Player player) {
@@ -128,17 +126,6 @@ public class Room {
         }
     }
 
-    public String getMoves(int y, int x){
-        return rules.showPossibleMoves(y,x,board);
-    }
-
-    public void movePawn(String[] data){
-        int y1 = Integer.parseInt(data[1]);
-        int x1 = Integer.parseInt(data[2]);
-        int y2 = Integer.parseInt(data[3]);
-        int x2 = Integer.parseInt(data[4]);
-        board.movePawn(y1,x1,y2,x2);
-    }
 
     public boolean isGameOn() {
         return isGameOn;
@@ -168,6 +155,10 @@ public class Room {
     }
 
     public String getBoard() {
-        return board.toString();
+        return rules.getBoard().toString();
+    }
+
+    public Rules getRules() {
+        return rules;
     }
 }

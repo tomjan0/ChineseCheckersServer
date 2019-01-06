@@ -3,13 +3,24 @@ package com.server.gameMode;
 import java.util.ArrayList;
 
 public class  BasicRules implements Rules {
+    private BasicBoard board;
+
+    public BasicRules() {
+        board = new BasicBoard();
+    }
+
+    @Override
+    public Board getBoard() {
+        return board;
+    }
+
     @Override
     public boolean checkIfWon(int playerId) {
         return false;
     }
 
     @Override
-    public String showPossibleMoves(int y, int x, Board board) {
+    public String showPossibleMoves(int y, int x) {
 
         StringBuilder result = new StringBuilder();
         boolean isFirstRun = true;
@@ -46,6 +57,11 @@ public class  BasicRules implements Rules {
         }
 
         return result.toString();
+    }
+
+    @Override
+    public boolean isMyTurn(int playerId) {
+        return false;
     }
 
     private void check(int y1, int x1, int y2, int x2, Board board, StringBuilder result, boolean isFirstRun, ArrayList<Integer> toCheck) {
@@ -96,5 +112,31 @@ public class  BasicRules implements Rules {
     @Override
     public String getCapacityList() {
         return "2;3;4;6";
+    }
+
+    @Override
+    public String handleRequest(String request) {
+        String requestCode = request.split(";")[0];
+        switch (requestCode) {
+            case "possible-moves": {
+                String[] data = request.split(";");
+                int y = Integer.parseInt(data[1]);
+                int x = Integer.parseInt(data[2]);
+                String answer = showPossibleMoves(y,x);
+                return "possible-moves;success;<" + answer;
+            }
+            case "move": {
+                String[] data = request.split(";");
+                int y1 = Integer.parseInt(data[1]);
+                int x1 = Integer.parseInt(data[2]);
+                int y2 = Integer.parseInt(data[3]);
+                int x2 = Integer.parseInt(data[4]);
+                board.movePawn(y1,x1,y2,x2);
+                return "move;success";
+            }
+            default: {
+                return "error;Operation not allowed";
+            }
+        }
     }
 }

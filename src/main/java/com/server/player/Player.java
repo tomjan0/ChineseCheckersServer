@@ -32,7 +32,7 @@ public abstract class Player {
         if (result) {
             joinedRooms.add(room);
             if (this instanceof HumanPlayer) room.newPlayerUpdate();
-            System.out.println("Player #" + playerId + " joined game room " + room.getRoom().getRoomId());
+            System.out.println("Player #" + playerId + " joined game room " + room.getRoom().getRoomId() + " on seat " + gameId);
             return true;
         } else {
             return false;

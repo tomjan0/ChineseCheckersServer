@@ -43,6 +43,11 @@ public class RoomThread extends Thread {
                 }
                 while (room.isGameOn()) {
                     //TODO: implement behaviour during game
+                    if (room.getRules().isMyTurn(playerId)){
+
+                    } else {
+
+                    }
                 }
             }
             room.closeRoom();
@@ -72,6 +77,9 @@ public class RoomThread extends Thread {
             case "start-game": {
                 start();
                 return "start-game;success";
+            }
+            case "game-on": {
+                return room.getRules().handleRequest(request.split("<")[1]);
             }
             default: {
                 return "error;Operation not allowed";
