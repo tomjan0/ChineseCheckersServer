@@ -13,7 +13,6 @@ import java.net.Socket;
 public class ClientHandler implements Runnable {
 
     private Player player;
-    private PrintWriter out;
     private BufferedReader in;
     private Socket clientSocket;
 
@@ -21,7 +20,6 @@ public class ClientHandler implements Runnable {
         try {
             clientSocket = socket;
             System.out.println(clientSocket.getInetAddress().toString() + " Connected");
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             player = null;
         } catch (IOException e) {
@@ -46,9 +44,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void sendUpdate(String update) {
-        out.println(update);
-    }
 
     public Socket getClientSocket() {
         return clientSocket;
@@ -62,7 +57,7 @@ public class ClientHandler implements Runnable {
         return player;
     }
 
-    private void chooseResponse(String request) {
+    private synchronized void chooseResponse(String request) {
         String requestCode = request.split(";")[0];
         switch (requestCode) {
             case "close": {
@@ -70,50 +65,44 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "create-player": {
-                setPlayer(Player.getPlayer(request.split(";")[1], getClientSocket()));
-                out.println(getPlayer().getPlayerId());
+                try {
+                    setPlayer(Player.getPlayer(request.split(";")[1], getClientSocket()));
+//                    player.sendMessage(getPlayer().getPlayerId() + "");
+                } catch (IOException e) {
+
+                }
                 System.out.println(getPlayer().toString());
                 break;
             }
             case "current-room-list": {
-                StringBuilder responseB = new StringBuilder();
-                for (Room room : Server.getRoomList()) {
-                    responseB.append(room.toString());
-                    responseB.append(";");
-                }
-                out.println(responseB);
+                player.sendMessage(Server.getCurrentRoomList());
                 break;
             }
             case "new-room-game-modes": {
-                out.println(Room.getListOfGameModes());
+                player.sendMessage(Server.getListOfGameModes());
                 break;
             }
             case "new-room-capacity": {
-                String capacityList = Room.getCapacityList(request.split(";")[1]);
+                String capacityList = Server.getRoomCapacityList(request.split(";")[1]);
                 if (capacityList != null) {
-                    out.println(capacityList);
+                    player.sendMessage(capacityList);
                 } else {
-                    out.println("error;This game mode is unavailable");
+                    player.sendMessage("error;This game mode is unavailable");
                 }
                 break;
             }
             case "create-new-room": {
-                String[] data = request.split(";");
-                String gameMode = data[1];
-                int playersNo = Integer.parseInt(data[2]);
-                int aiNo = Integer.parseInt(data[3]);
-                Room room = new Room(player, playersNo, aiNo, gameMode);
-                out.println(room.getInfo(player));
+                int roomId = Server.createRoom(request, this);
+                player.sendMessage(Server.getRoom(roomId).getInfo(player));
                 break;
             }
             case "join-room": {
-                //TODO: call method that returns info about room based on id
                 int roomId = Integer.parseInt(request.split(";")[1]);
                 boolean result = player.joinRoom(roomId);
                 if (result) {
-                    out.println(Server.getRoom(roomId).getInfo(player));
+                    player.sendMessage(Server.getRoom(roomId).getInfo(player));
                 } else {
-                    out.println("error;Room is not available for you");
+                    player.sendMessage("error;Room is not available for you");
                 }
                 break;
             }
@@ -122,18 +111,19 @@ public class ClientHandler implements Runnable {
                 if (player.getRoomThreadById(roomId) != null) {
                     String response = player.getRoomThreadById(Integer.parseInt(request.split(";")[1]))
                             .handleRequest(request);
+                    if (response.equals("null"))    break;
                     if (response.split(";")[1].equals("success")) {
-                        out.println(response);
+                        player.sendMessage(response);
                     } else {
-                        out.println("error;Something went wrong");
+                        player.sendMessage("error;Something went wrong");
                     }
                 } else {
-                    out.println("error;You are not in this room anymore");
+                    player.sendMessage("error;You are not in this room anymore");
                 }
                 break;
             }
             default: {
-                out.println("error;Request " + requestCode + " isn't handled by server");
+                player.sendMessage("error;Request " + requestCode + " isn't handled by server");
                 break;
             }
 
@@ -143,9 +133,10 @@ public class ClientHandler implements Runnable {
     public void closeSocket() {
         try {
             in.close();
-            out.close();
             clientSocket.close();
-            player.leave();
+            if (player != null) {
+                player.leave();
+            }
             System.out.println(clientSocket.getInetAddress().toString() + " Disconnected");
         } catch (IOException e) {
             System.out.println(e.getMessage());

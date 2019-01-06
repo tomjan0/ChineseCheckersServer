@@ -1,5 +1,7 @@
 package com.server.gameMode;
 
+import java.util.ArrayList;
+
 public class BasicBoard extends Board {
     public BasicBoard() {
         super(19,15, new String[]{"#f00","#009","#090","#f90","#f39","#606"});
@@ -27,64 +29,91 @@ public class BasicBoard extends Board {
         switch (gameId){
             case 1:
             {
-                this.setPlayer(1,7,1, playerId, gameId);
-                this.setPlayer(2,6,2, playerId, gameId);
-                this.setPlayer(3,6,3, playerId, gameId);
-                this.setPlayer(4,5,4, playerId, gameId);
+                this.setPlayer(1,7,1, gameId);
+                this.setPlayer(2,6,2, gameId);
+                this.setPlayer(3,6,3, gameId);
+                this.setPlayer(4,5,4, gameId);
+                this.setWinner(17,7,1, gameId);
+                this.setWinner(16,6,2, gameId);
+                this.setWinner(15,6,3, gameId);
+                this.setWinner(14,5,4, gameId);
             }break;
             case 2:
             {
-                this.setPlayer(8,11,1, playerId, gameId);
-                this.setPlayer(7,11,2, playerId, gameId);
-                this.setPlayer(6,10,3, playerId, gameId);
-                this.setPlayer(5,10,4, playerId, gameId);
+                this.setPlayer(8,11,1, gameId);
+                this.setPlayer(7,11,2, gameId);
+                this.setPlayer(6,10,3, gameId);
+                this.setPlayer(5,10,4, gameId);
+                this.setWinner(10,2,1, gameId);
+                this.setWinner(11,2,2, gameId);
+                this.setWinner(12,1,3, gameId);
+                this.setWinner(13,1,4, gameId);
             }break;
             case 3:
             {
-                this.setPlayer(10,11,1, playerId, gameId);
-                this.setPlayer(11,11,2, playerId, gameId);
-                this.setPlayer(12,10,3, playerId, gameId);
-                this.setPlayer(13,10,4, playerId, gameId);
+                this.setPlayer(10,11,1, gameId);
+                this.setPlayer(11,11,2, gameId);
+                this.setPlayer(12,10,3, gameId);
+                this.setPlayer(13,10,4, gameId);
+                this.setWinner(8,2,1, gameId);
+                this.setWinner(7,2,2, gameId);
+                this.setWinner(6,1,3, gameId);
+                this.setWinner(5,1,4, gameId);
             }break;
             case 4:
             {
-                this.setPlayer(17,7,1, playerId, gameId);
-                this.setPlayer(16,6,2, playerId, gameId);
-                this.setPlayer(15,6,3, playerId, gameId);
-                this.setPlayer(14,5,4, playerId, gameId);
+                this.setPlayer(17,7,1, gameId);
+                this.setPlayer(16,6,2, gameId);
+                this.setPlayer(15,6,3, gameId);
+                this.setPlayer(14,5,4, gameId);
+                this.setWinner(1,7,1, gameId);
+                this.setWinner(2,6,2, gameId);
+                this.setWinner(3,6,3, gameId);
+                this.setWinner(4,5,4, gameId);
             }break;
             case 5:
             {
-                this.setPlayer(10,2,1, playerId, gameId);
-                this.setPlayer(11,2,2, playerId, gameId);
-                this.setPlayer(12,1,3, playerId, gameId);
-                this.setPlayer(13,1,4, playerId, gameId);
+                this.setPlayer(10,2,1, gameId);
+                this.setPlayer(11,2,2, gameId);
+                this.setPlayer(12,1,3, gameId);
+                this.setPlayer(13,1,4, gameId);
+                this.setWinner(8,11,1, gameId);
+                this.setWinner(7,11,2, gameId);
+                this.setWinner(6,10,3, gameId);
+                this.setWinner(5,10,4, gameId);
             }break;
             case 6:
             {
-                this.setPlayer(8,2,1, playerId, gameId);
-                this.setPlayer(7,2,2, playerId, gameId);
-                this.setPlayer(6,1,3, playerId, gameId);
-                this.setPlayer(5,1,4, playerId, gameId);
+                this.setPlayer(8,2,1, gameId);
+                this.setPlayer(7,2,2, gameId);
+                this.setPlayer(6,1,3, gameId);
+                this.setPlayer(5,1,4, gameId);
+                this.setWinner(10,11,1, gameId);
+                this.setWinner(11,11,2, gameId);
+                this.setWinner(12,10,3, gameId);
+                this.setWinner(13,10,4, gameId);
             }break;
         }
 
     }
 
-    private void setPlayer(int y, int x, int length, int playerId, int gameId){
+    private void setPlayer(int y, int x, int length, int gameId){
         for (int i=0; i < length; i++){
-            getField(y,x+i).setPawn(playerId, gameId);
+            getField(y,x+i).setPawn(gameId);
+        }
+    }
+    private void setWinner(int y, int x, int length, int gameId){
+        for (int i=0; i < length; i++){
+            getField(y,x+i).setWinnerId(gameId);
         }
     }
 
     @Override
     public void removePlayer(int gameId) {
-        for (BoardField [] boardRow :
-                getFieldArray()) {
-            for (BoardField field :
-                    boardRow) {
-                if (field != null && field.getOutputCode().equals(gameId + "")) {
-                    field.setOutputCode("o");
+        for (int i = 0; i < super.getROWS(); i++) {
+            for (int j = 0; j < super.getCOLS(); j++) {
+                if (getField(i,j) != null && getField(i,j).getOutputCode().equals(gameId + "")) {
+                    getField(i,j).removePawn();
                 }
             }
         }
@@ -119,4 +148,9 @@ public class BasicBoard extends Board {
         return list.toString();
     }
 
+
+    @Override
+    public boolean areAllInPlace(int gameId) {
+        return howManyInPlace(gameId) == 10;
+    }
 }

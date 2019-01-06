@@ -3,21 +3,28 @@ package com.server.gameMode;
 
 public interface Rules {
     String listOfGameModes = "Basic";
-    boolean checkIfWon(int playerId);
-    String showPossibleMoves(int y, int x);
-    boolean isMyTurn(int playerId);
-    int setPlayerId(int totalNumberOfPlayers);
-    String getCapacityList();
-    static Rules getRuleset(String mode) {
+    static Rules getRuleset(String mode, int numberOfPlayers) {
         switch (mode) {
             case "Basic": {
-                return new BasicRules();
+                return new BasicRules(numberOfPlayers);
             }
             default: {
                 return null;
             }
         }
     }
+    boolean checkIfWon();
+    boolean anyMovesLeft();
+    String showPossibleMoves(int y, int x);
+    int setPlayerId();
+    String getCapacityList();
     Board getBoard();
     String handleRequest(String request);
+    String getMadeMoves();
+    void makeMove(String moves);
+    int whoseTurn();
+    void nextTurn();
+    int whoStarts();
+    String getWinningCorner(int gameId, int which);
+    int howManySkipped();
 }

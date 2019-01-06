@@ -5,7 +5,7 @@ public class BoardField {
     private int winnerId;
     private String outputCode;
 
-    public BoardField() {
+    BoardField() {
         pawn = null;
         outputCode = "o";
     }
@@ -14,30 +14,30 @@ public class BoardField {
         return pawn;
     }
 
-    public void setPawn(int playerId, int gameId) {
-        this.pawn = new PlayerPawn(playerId);
+    void setPawn(int gameId) {
+        this.pawn = new PlayerPawn(gameId);
         outputCode = gameId + "";
     }
 
-    public int getWinnerId() {
+    void setPawn(PlayerPawn pawn) {
+        this.pawn = pawn;
+        outputCode = pawn.getOwnerId() + "";
+    }
+
+    int getWinnerId() {
         return winnerId;
     }
 
-    public void setWinnerId(int winnerId) {
+    void setWinnerId(int winnerId) {
         this.winnerId = winnerId;
     }
 
-    public String getOutputCode() {
+    String getOutputCode() {
         return outputCode;
     }
 
-    public void setOutputCode(int playerId, String outputCode) {
-        pawn = new PlayerPawn(playerId);
-        this.outputCode = outputCode;
-    }
-
-    public void setOutputCode(String outputCode) {
-        this.outputCode = outputCode;
+    void removePawn() {
+        this.outputCode = "o";
         pawn = null;
     }
 }

@@ -3,20 +3,13 @@ package com.server.gameMode;
 public abstract class Board {
     private BoardField[][] fieldArray;
     private static String colors[];
-
-    public static Board getBoardType(String gameMode) {
-        switch (gameMode) {
-            case "Basic": {
-                return new BasicBoard();
-            }
-            default: {
-                return null;
-            }
-        }
-    }
+    private final int ROWS;
+    private final int COLS;
 
     public Board(int rows, int cols, String[] colors) {
-        this.fieldArray = new BoardField[rows][cols];
+        ROWS = rows;
+        COLS = cols;
+        this.fieldArray = new BoardField[ROWS][COLS];
         this.colors = colors;
     }
 
@@ -26,6 +19,14 @@ public abstract class Board {
     public abstract void addPlayer(int playerId, int gameId);
     public abstract void removePlayer(int gameId);
     public abstract String getListOfColors();
+
+    public int getROWS() {
+        return ROWS;
+    }
+
+    public int getCOLS() {
+        return COLS;
+    }
 
     public void createField(int y, int x){
         fieldArray[y][x] = new BoardField();
@@ -66,8 +67,33 @@ public abstract class Board {
     }
 
     public void movePawn(int y1, int x1, int y2, int x2){
-        BoardField tempField = fieldArray[y2][x2];
-        fieldArray[y2][x2] = fieldArray [y1][x1];
-        fieldArray[y1][x1] = tempField;
+//        BoardField tempField = fieldArray[y2][x2];
+//        fieldArray[y2][x2] = fieldArray [y1][x1];
+//        fieldArray[y1][x1] = tempField;
+        //
+        fieldArray[y2][x2].setPawn(fieldArray[y1][x1].getPawn());
+        fieldArray[y1][x1].removePawn();
+        if (fieldArray[y2][x2].getPawn().getOwnerId() == fieldArray[y2][x2].getWinnerId()){
+            fieldArray[y2][x2].getPawn().setInPlace(true);
+        }
+    }
+
+    public abstract boolean areAllInPlace(int gameId);
+
+    public int howManyInPlace(int gameId) {
+        int inPlace = 0;
+        for (int i = 0; i < getROWS(); i++) {
+            for (int j = 0; j < getCOLS(); j++) {
+                if (getField(i, j) != null && getField(i,j).getPawn() != null) {
+                    if (getField(i,j).getPawn().getOwnerId() == gameId) {
+                            if(getField(i,j).getWinnerId() == gameId) {
+                                inPlace++;
+                            }
+                    }
+                }
+            }
+        }
+        System.out.println(gameId + " INPLACE: " + inPlace);
+        return inPlace;
     }
 }

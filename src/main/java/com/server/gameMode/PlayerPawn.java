@@ -4,7 +4,7 @@ public class PlayerPawn {
     private int ownerId;
     private boolean isInPlace;
 
-    public PlayerPawn(int ownerId) {
+    PlayerPawn(int ownerId) {
         this.ownerId = ownerId;
         isInPlace = false;
     }
@@ -13,15 +13,11 @@ public class PlayerPawn {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public boolean isInPlace() {
+    boolean isInPlace() {
         return isInPlace;
     }
 
-    public void setInPlace(boolean inPlace) {
+    void setInPlace(boolean inPlace) {
         isInPlace = inPlace;
     }
 }
