@@ -30,4 +30,14 @@ public class BoardField {
     public String getOutputCode() {
         return outputCode;
     }
+
+    public void setOutputCode(int playerId, String outputCode) {
+        pawn = new PlayerPawn(playerId);
+        this.outputCode = outputCode;
+    }
+
+    public void setOutputCode(String outputCode) {
+        this.outputCode = outputCode;
+        pawn = null;
+    }
 }

@@ -45,6 +45,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public void sendUpdate(String update) {
+        out.println(update);
+    }
+
     public Socket getClientSocket() {
         return clientSocket;
     }
@@ -65,14 +69,12 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "create-player": {
-                //TODO: call method that creates new player and returns his id
                 setPlayer(Player.getPlayer(request.split(";")[1], getClientSocket()));
                 out.println(getPlayer().getPlayerId());
                 System.out.println(getPlayer().toString());
                 break;
             }
             case "current-room-list": {
-                //TODO: call method that returns string with current room list
                 StringBuilder responseB = new StringBuilder();
                 for (Room room : Server.getRoomList()) {
                     responseB.append(room.toString());
@@ -82,7 +84,6 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "new-room-game-modes": {
-                //TODO: call method that returns current options for creating room
                 out.println(Room.getListOfGameModes());
                 break;
             }
@@ -96,8 +97,6 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "create-new-room": {
-                //TODO: call method that creates new room and the other that returns info about room based on its id
-
                 String[] data = request.split(";");
                 String gameMode = data[1];
                 int playersNo = Integer.parseInt(data[2]);
@@ -114,6 +113,21 @@ public class ClientHandler implements Runnable {
                     out.println(Server.getRoom(roomId).getInfo(player));
                 } else {
                     out.println("error;Room is not available for you");
+                }
+                break;
+            }
+            case "room-request": {
+                int roomId = Integer.parseInt(request.split(";")[1]);
+                if (player.getRoomThreadById(roomId) != null) {
+                    String response = player.getRoomThreadById(Integer.parseInt(request.split(";")[1]))
+                            .handleRequest(request);
+                    if (response.split(";")[1].equals("success")) {
+                        out.println(response);
+                    } else {
+                        out.println("error;Something went wrong");
+                    }
+                } else {
+                    out.println("error;You are not in this room anymore");
                 }
                 break;
             }

@@ -24,6 +24,7 @@ public abstract class Board {
         return this.fieldArray[y][x];
     }
     public abstract void addPlayer(int playerId, int gameId);
+    public abstract void removePlayer(int gameId);
     public abstract String getListOfColors();
 
     public void createField(int y, int x){
@@ -41,5 +42,9 @@ public abstract class Board {
         } else {
             return "#000";
         }
+    }
+
+    public BoardField[][] getFieldArray() {
+        return fieldArray;
     }
 }

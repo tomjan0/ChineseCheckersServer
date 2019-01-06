@@ -78,6 +78,19 @@ public class BasicBoard extends Board {
     }
 
     @Override
+    public void removePlayer(int gameId) {
+        for (BoardField [] boardRow :
+                getFieldArray()) {
+            for (BoardField field :
+                    boardRow) {
+                if (field != null && field.getOutputCode().equals(gameId + "")) {
+                    field.setOutputCode("o");
+                }
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (int i=1; i<18; i++) {

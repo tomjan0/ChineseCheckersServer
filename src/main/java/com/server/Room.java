@@ -2,6 +2,7 @@ package com.server;
 
 import com.server.gameMode.Board;
 import com.server.gameMode.Rules;
+import com.server.player.HumanPlayer;
 import com.server.player.Player;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Room {
     private String gameMode;
     private Rules rules;
     private Board board;
+    private boolean isGameOn;
 
     public Room(Player player, int numberOfPlayers, int numberOfAiPlayers, String gameMode) {
         this.roomId = roomCounter;
@@ -30,10 +32,11 @@ public class Room {
         for (int i = 0; i < this.numberOfAIPlayers; i++) {
             Player.getPlayer("Easy").joinRoom(roomId);
         }
+        isGameOn = false;
     }
 
     public boolean addPlayer(Player player) {
-        if (rules != null && board != null && players.size() < numberOfPlayers && !isAlreadyPlaying(player)) {
+        if (rules != null && board != null && !isFull() && !isAlreadyPlaying(player)) {
             player.setGameId(rules.setPlayerId(numberOfPlayers, players.size()));
             players.add(player);
             board.addPlayer(player.getPlayerId(), player.getGameId());
@@ -42,6 +45,35 @@ public class Room {
         } else {
             return false;
         }
+    }
+
+    public boolean removePlayer(int playerId) {
+        Player player = getPlayerById(playerId);
+        if (player != null) {
+            players.remove(player);
+            board.removePlayer(player.getGameId());
+            player.setGameId(-1);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean anyHumansLeft() {
+        int humans = 0;
+        for (Player player :
+                players) {
+            if (player instanceof HumanPlayer) {
+                humans++;
+            }
+        }
+        return humans > 0;
+    }
+
+    public void closeRoom() {
+        players = null;
+        Server.getRoomList().remove(this);
     }
 
     public String toString(){
@@ -94,5 +126,36 @@ public class Room {
         } else {
             return null;
         }
+    }
+
+    public boolean isGameOn() {
+        return isGameOn;
+    }
+
+    public void setGameOn(boolean gameOn) {
+        if (gameOn) {
+            System.out.println("Game in room #" + getRoomId() + " has started");
+        } else {
+            System.out.println("Game in room #" + getRoomId() + " has finished");
+        }
+        isGameOn = gameOn;
+    }
+
+    public Player getPlayerById(int playerId) {
+        for (Player player :
+                players) {
+            if (player.getPlayerId() == playerId) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public boolean isFull() {
+        return players.size() == numberOfPlayers;
+    }
+
+    public String getBoard() {
+        return board.toString();
     }
 }

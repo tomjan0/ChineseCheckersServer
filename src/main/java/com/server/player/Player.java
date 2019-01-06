@@ -31,11 +31,16 @@ public abstract class Player {
         boolean result = room.joinRoom(roomId, this);
         if (result) {
             joinedRooms.add(room);
-            room.start();
+            if (this instanceof HumanPlayer) room.newPlayerUpdate();
+            System.out.println("Player #" + playerId + " joined game room " + room.getRoom().getRoomId());
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean leaveRoom(int roomId) {
+        return joinedRooms.remove(getRoomThreadById(roomId));
     }
 
     public static Player getPlayer(String difficultyLevel) {
@@ -68,6 +73,16 @@ public abstract class Player {
 
     public boolean isWinning() {
         return (pawnsInPlace == 10);
+    }
+
+    public RoomThread getRoomThreadById(int roomId) {
+        for (RoomThread room :
+                joinedRooms) {
+            if (room.getRoom().getRoomId() == roomId) {
+                return room;
+            }
+            }
+        return null;
     }
 
     @Override
