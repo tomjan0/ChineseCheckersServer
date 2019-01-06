@@ -125,7 +125,7 @@ public class ClientHandler implements Runnable {
                 int y = Integer.parseInt(data[1]);
                 int x = Integer.parseInt(data[2]);
                 String answer = clientRoom.getMoves(y,x);
-                out.println(clientRoom.getMoves(y, x));
+                out.println(answer);
                 break;
             }
             case "move": {
