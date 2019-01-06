@@ -15,19 +15,15 @@ public abstract class Player {
     private String name;
     private int playerId;
     private int gameId;
-    private boolean isMoving;
-    private int pawnsInPlace;
     private ArrayList<RoomHandler> joinedRooms;
 
     public abstract boolean sendMessage(String message);
 
-    public Player(String name){
+    Player(String name){
         this.playerId = playerIdCounter;
         playerIdCounter++;
         this.name = name;
         gameId = -1;
-        isMoving = false;
-        pawnsInPlace = 0;
         joinedRooms = new ArrayList<>();
     }
 
@@ -79,10 +75,6 @@ public abstract class Player {
         return new HumanPlayer(name, socket);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getGameId() {
         return gameId;
     }
@@ -93,14 +85,6 @@ public abstract class Player {
 
     public int getPlayerId() {
         return playerId;
-    }
-
-    public boolean isMoving() {
-        return isMoving;
-    }
-
-    public boolean isWinning() {
-        return (pawnsInPlace == 10);
     }
 
     public RoomHandler getRoomThreadById(int roomId) {
@@ -114,10 +98,6 @@ public abstract class Player {
 
     public boolean isHuman() {
         return this instanceof HumanPlayer;
-    }
-
-    public boolean isAI() {
-        return this instanceof AIPlayer;
     }
 
     @Override

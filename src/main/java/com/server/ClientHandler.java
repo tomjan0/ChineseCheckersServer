@@ -1,13 +1,10 @@
 package com.server;
 
-//import test.TestGUI;
-
 import com.server.player.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
@@ -57,7 +54,7 @@ public class ClientHandler implements Runnable {
         return player;
     }
 
-    private synchronized void chooseResponse(String request) {
+    public synchronized void chooseResponse(String request) {
         String requestCode = request.split(";")[0];
         switch (requestCode) {
             case "close": {
@@ -67,7 +64,6 @@ public class ClientHandler implements Runnable {
             case "create-player": {
                 try {
                     setPlayer(Player.getPlayer(request.split(";")[1], getClientSocket()));
-//                    player.sendMessage(getPlayer().getPlayerId() + "");
                 } catch (IOException e) {
 
                 }

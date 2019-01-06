@@ -1,7 +1,5 @@
 package com.server.gameMode;
 
-import java.util.ArrayList;
-
 public class BasicBoard extends Board {
     public BasicBoard() {
         super(19,15, new String[]{"#f00","#009","#090","#f90","#f39","#606"});

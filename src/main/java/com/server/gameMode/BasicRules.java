@@ -171,11 +171,7 @@ public class  BasicRules implements Rules {
                 return "possible-moves;success;<" + answer;
             }
             case "move": {
-//                if (request.split(";").length == 1) {
-//                    makeMove("pass");
-//                } else {
-                    makeMove(request.split(";")[1]);
-//                }
+                makeMove(request.split(";")[1]);
                 return "null";
             }
             default: {
