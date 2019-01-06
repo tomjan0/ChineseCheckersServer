@@ -86,27 +86,43 @@ public class  BasicRules implements Rules {
 
 
     @Override
-    public int setPlayerId(int totalNumberOfPlayers, int loggedInPlayers) {
+    public int setPlayerId(int totalNumberOfPlayers) {
+        int [] availableIds = new int[totalNumberOfPlayers];
         switch (totalNumberOfPlayers) {
             case 2: {
-                return loggedInPlayers == 0 ? 1 : 4;
+                availableIds[0] = 1;
+                availableIds[1] = 4;
+                break;
             }
             case 3: {
-                return 2*loggedInPlayers + 1;
+                for (int i = 0; i < 3; i++) {
+                    availableIds[i] = 2*i + 1;
+                }
+                break;
             }
             case 4: {
-                if (loggedInPlayers == 0)   return 2;
-                if (loggedInPlayers == 1)   return 3;
-                if (loggedInPlayers == 2)   return 5;
-                if (loggedInPlayers == 3)   return 6;
+                availableIds[0] = 2;
+                availableIds[1] = 3;
+                availableIds[2] = 5;
+                availableIds[3] = 6;
+                break;
             }
             case 6: {
-                return loggedInPlayers + 1;
+                for (int i = 0; i < 6; i++) {
+                    availableIds[i] = i + 1;
+                }
+                break;
             }
             default: {
                 return -1;
             }
         }
+        for (int i = 0; i < totalNumberOfPlayers; i++) {
+            if (!board.toString().contains(availableIds[i] + "")){
+                return availableIds[i];
+            }
+        }
+        return -1;
     }
 
     @Override

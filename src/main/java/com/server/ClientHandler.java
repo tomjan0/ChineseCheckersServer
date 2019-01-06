@@ -39,8 +39,9 @@ public class ClientHandler implements Runnable {
                     chooseResponse(message);
                     message = in.readLine();
                 } while (message != null);
+                closeSocket();
             } catch (IOException ex) {
-    //                System.out.println("Exception");
+                closeSocket();
             }
         }
     }
@@ -141,7 +142,10 @@ public class ClientHandler implements Runnable {
 
     public void closeSocket() {
         try {
+            in.close();
+            out.close();
             clientSocket.close();
+            player.leave();
             System.out.println(clientSocket.getInetAddress().toString() + " Disconnected");
         } catch (IOException e) {
             System.out.println(e.getMessage());

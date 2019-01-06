@@ -34,8 +34,14 @@ public class Room {
 
     public boolean addPlayer(Player player) {
         if (rules != null && !isFull() && !isAlreadyPlaying(player)) {
-            player.setGameId(rules.setPlayerId(numberOfPlayers, players.size()));
+            ArrayList<Integer> loggedIn = new ArrayList<>();
+            for (Player loggedInPlayer:
+                  players) {
+                loggedIn.add(loggedInPlayer.getGameId());
+            }
+            player.setGameId(rules.setPlayerId(numberOfPlayers));
             players.add(player);
+            sortPlayersByGameId();
             rules.getBoard().addPlayer(player.getPlayerId(), player.getGameId());
             System.out.println("Room #" + roomId + " has " + players.size() + " players now");
             return true;
@@ -50,7 +56,7 @@ public class Room {
             players.remove(player);
             rules.getBoard().removePlayer(player.getGameId());
             player.setGameId(-1);
-            System.out.println("Room #" + roomId + " has " + players.size() + " players now");
+            System.out.println("Player left. Room #" + roomId + " has " + players.size() + " players now");
             return true;
         } else {
             return false;
@@ -72,6 +78,7 @@ public class Room {
     public void closeRoom() {
         players = null;
         Server.getRoomList().remove(this);
+        System.out.println("Room #" + roomId + " closed");
     }
 
     public String toString(){
@@ -160,5 +167,26 @@ public class Room {
 
     public Rules getRules() {
         return rules;
+    }
+
+    public Player getPlayerByGameId(int gameId) {
+        for (Player player :
+                players) {
+            if (player.getPlayerId() == gameId) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    private void sortPlayersByGameId() {
+        ArrayList<Player> sortedPlayers = new ArrayList<>();
+        for (int i = 0; i < 6; i ++) {
+            Player player = getPlayerByGameId(i);
+            if (player != null) {
+                sortedPlayers.add(player);
+            }
+        }
+        players = sortedPlayers;
     }
 }

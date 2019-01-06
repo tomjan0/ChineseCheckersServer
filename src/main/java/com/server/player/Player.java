@@ -43,6 +43,17 @@ public abstract class Player {
         return joinedRooms.remove(getRoomThreadById(roomId));
     }
 
+    public void leave() {
+        for (RoomThread joinedRoom :
+                joinedRooms) {
+            if (joinedRoom.getRoom().isGameOn()) {
+                setGameId(0);
+            } else {
+                leaveRoom(joinedRoom.getRoom().getRoomId());
+                joinedRoom.getRoom().removePlayer(playerId);
+            }
+        }
+    }
     public static Player getPlayer(String difficultyLevel) {
         return AIPlayer.getAI(difficultyLevel);
     }
