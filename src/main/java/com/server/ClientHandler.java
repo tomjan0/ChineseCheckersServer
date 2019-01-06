@@ -16,6 +16,7 @@ public class ClientHandler implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private Socket clientSocket;
+    private Room clientRoom;
 
     public ClientHandler(Socket socket) {
         try {
@@ -103,6 +104,7 @@ public class ClientHandler implements Runnable {
                 int playersNo = Integer.parseInt(data[2]);
                 int aiNo = Integer.parseInt(data[3]);
                 Room room = new Room(player, playersNo, aiNo, gameMode);
+                clientRoom = room;
                 out.println(room.getInfo(player));
                 break;
             }
@@ -110,11 +112,26 @@ public class ClientHandler implements Runnable {
                 //TODO: call method that returns info about room based on id
                 int roomId = Integer.parseInt(request.split(";")[1]);
                 boolean result = player.joinRoom(roomId);
+                clientRoom = Server.getRoom(roomId);
                 if (result) {
                     out.println(Server.getRoom(roomId).getInfo(player));
                 } else {
                     out.println("error;Room is not available for you");
                 }
+                break;
+            }
+            case "possible-moves": {
+                String[] data = request.split(";");
+                int y = Integer.parseInt(data[1]);
+                int x = Integer.parseInt(data[2]);
+                String answer = clientRoom.getMoves(y,x);
+                out.println(clientRoom.getMoves(y, x));
+                break;
+            }
+            case "move": {
+                String[] data = request.split(";");
+                clientRoom.movePawn(data);
+                out.println("moved");
                 break;
             }
             default: {

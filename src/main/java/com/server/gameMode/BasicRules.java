@@ -7,9 +7,91 @@ public class  BasicRules implements Rules {
     }
 
     @Override
-    public String showPossibleMoves(int playerId) {
-        return null;
+    public String showPossibleMoves(int y, int x, Board board) {
+
+        StringBuilder result = new StringBuilder();
+
+        BoardField field;
+
+        if ((field = board.getField(y,x-1)) != null) {
+            if (field.getOutputCode() == "o") {
+                result.append(y + " " + (x-1) + ";");
+            } else if((field = board.getField(y,x-2)) != null && field.getOutputCode() == "o") {
+                result.append((y) + " " + (x-2) + ";");
+            }
+        }
+        if ((field = board.getField(y,x+1)) != null) {
+            if (field.getOutputCode() == "o") {
+                result.append(y + " " + (x + 1) + ";");
+            } else if((field = board.getField(y,x+2)) != null && field.getOutputCode() == "o") {
+                result.append((y) + " " + (x+2) + ";");
+            }
+        }
+
+        if(y%2 == 0){
+            if((field = board.getField(y-1,x)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y - 1) + " " + x + ";");
+                } else if((field = board.getField(y-2,x-1)) != null && field.getOutputCode() == "o") {
+                    result.append((y-2) + " " + (x-1) + ";");
+                }
+            }
+            if ((field = board.getField(y+1,x)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y+1) + " " + x + ";");
+                } else if((field = board.getField(y+2,x-1)) != null && field.getOutputCode() == "o") {
+                    result.append((y+2) + " " + (x-1) + ";");
+                }
+            }
+            if ((field = board.getField(y-1,x+1)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y-1) + " " + (x+1) + ";");
+                } else if((field = board.getField(y-2,x+1)) != null && field.getOutputCode() == "o") {
+                    result.append((y-2) + " " + (x+1) + ";");
+                }
+            }
+
+            if ((field = board.getField(y+1,x+1)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y+1) + " " + (x+1) + ";");
+                } else if((field = board.getField(y+2,x+1)) != null && field.getOutputCode() == "o") {
+                    result.append((y+2) + " " + (x+1) + ";");
+                }
+            }
+        } else {
+            if((field = board.getField(y-1,x)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y-1) + " " + x + ";");
+                } else if((field = board.getField(y-2,x+1)) != null && field.getOutputCode() == "o") {
+                    result.append((y-2) + " " + (x+1) + ";");
+                }
+            }
+            if ((field = board.getField(y+1,x)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y + 1) + " " + x + ";");
+                } else if((field = board.getField(y+2,x+1)) != null && field.getOutputCode() == "o") {
+                    result.append((y+2) + " " + (x+1) + ";");
+                }
+            }
+            if ((field = board.getField(y-1,x-1)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y - 1) + " " + (x - 1) + ";");
+                } else if((field = board.getField(y-2,x-1)) != null && field.getOutputCode() == "o") {
+                    result.append((y-2) + " " + (x-1) + ";");
+                }
+            }
+            if ((field = board.getField(y+1,x-1)) != null) {
+                if (field.getOutputCode() == "o") {
+                    result.append((y+1) + " " + (x-1) + ";");
+                } else if((field = board.getField(y + 2,x-1)) != null && field.getOutputCode() == "o") {
+                    result.append((y+2) + " " + (x-1) + ";");
+                }
+            }
+        }
+        return result.toString();
     }
+
+
 
     @Override
     public int setPlayerId(int totalNumberOfPlayers, int loggedInPlayers) {
