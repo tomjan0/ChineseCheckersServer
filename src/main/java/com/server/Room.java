@@ -128,6 +128,18 @@ public class Room {
         }
     }
 
+    public String getMoves(int y, int x){
+        return rules.showPossibleMoves(y,x,board);
+    }
+
+    public void movePawn(String[] data){
+        int y1 = Integer.parseInt(data[1]);
+        int x1 = Integer.parseInt(data[2]);
+        int y2 = Integer.parseInt(data[3]);
+        int x2 = Integer.parseInt(data[4]);
+        board.movePawn(y1,x1,y2,x2);
+    }
+
     public boolean isGameOn() {
         return isGameOn;
     }

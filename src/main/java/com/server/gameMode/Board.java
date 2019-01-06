@@ -47,4 +47,27 @@ public abstract class Board {
     public BoardField[][] getFieldArray() {
         return fieldArray;
     }
+
+    public void printArray() {
+        int y = fieldArray.length;
+        int x = fieldArray[0].length;
+
+        for (int i=0;i<y;i++){
+            for (int j=0;j<x;j++) {
+                if(fieldArray[i][j] != null) {
+                    System.out.print(fieldArray[i][j].getOutputCode());
+                }
+                else {
+                    System.out.print("-");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void movePawn(int y1, int x1, int y2, int x2){
+        BoardField tempField = fieldArray[y2][x2];
+        fieldArray[y2][x2] = fieldArray [y1][x1];
+        fieldArray[y1][x1] = tempField;
+    }
 }
