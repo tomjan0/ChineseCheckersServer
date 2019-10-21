@@ -14,6 +14,6 @@ Using the <b><a href=https://github.com/malinowska423/ChineseCheckers>client</a>
 </p>
 <ul>
 <img src="screen1.jpg"></img>
-<img src="screen3.jpg"></img>
+<img src="screen2.jpg"></img>
 </ul>
 
