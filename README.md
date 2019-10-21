@@ -1,5 +1,5 @@
 # ChineseCheckersServer
-<h6>Backend server for Chinese Checkers game. Client can be fount here: https://github.com/malinowska423/ChineseCheckers.</h6>
+<h6>Backend server for Chinese Checkers game. Client can be found here: https://github.com/malinowska423/ChineseCheckers.</h6>
 <p>
 Server is working on java sockets and is doing all the logic for the game. It takes an information about the move of current player and 
 then send update to all connected players. 
