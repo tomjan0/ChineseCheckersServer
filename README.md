@@ -12,3 +12,8 @@ Using the <b><a href=https://github.com/malinowska423/ChineseCheckers>client</a>
 <li> Play with friends through local or simulated ethernet network (eg. logMeIn Hamachi)
 </ul>
 </p>
+<ul>
+<img src="screen1.jpg"></img>
+<img src="screen3.jpg"></img>
+</ul>
+
